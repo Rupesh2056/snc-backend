@@ -10,7 +10,7 @@ class Course(TimeStampModel):
     title = models.CharField(max_length=55)
     code = models.CharField(unique=True)
     description = models.TextField(blank=True,null=True)
-    meta_data = models.ManyToManyField(MetaData,related_name="course_metas")
+    meta_data = models.ManyToManyField(MetaData,related_name="course_metas",blank=True,null=True)
 
 
 class Enrollment(TimeStampModel):

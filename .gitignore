@@ -11,3 +11,6 @@ wheels/
 
 # database
 *.sqlite3
+
+#backups
+*.backup/

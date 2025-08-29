@@ -1,0 +1,62 @@
+{% load static %}
+
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
+<script src="{% static 'js/scripts.bundle.js' %}"></script>
+<!--end::Global Javascript Bundle-->
+
+<!--end::Javascript-->
+
+<script>
+  function remove(pk, url, name = "the item", item_to_remove = "obj-") {
+    Swal.fire({
+      html: `Are you sure you want to remove ${name}?`,
+      icon: "warning",
+      buttonsStyling: false,
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete!",
+      cancelButtonText: "No, cancel",
+      customClass: {
+        confirmButton: "btn btn-danger",
+        cancelButton: "btn btn-default",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: url,
+          data: {
+            pk: pk,
+          },
+          dataType: "json",
+          success: function (data) {
+            if (data.deleted==true) {
+              Swal.fire({
+                text: "Deleted Successfully",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              }).then((result) => {
+                $("#" + item_to_remove + pk).remove();
+                location.reload();
+              });
+            }else{
+              Swal.fire({
+                text: data['deleted'],
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              });
+            }
+          },
+        });
+      }
+    });
+  }
+  
+</script>

@@ -1,0 +1,12 @@
+{% comment %} {% load filter %} {% endcomment %}
+{% comment %} {% if  request.GET.page%}
+    {{forloop.counter|get_sn:request.GET.page}}
+{% else %}
+    {{forloop.counter|get_sn:1}} 
+{% endif %} {% endcomment %}
+
+{% if  request.GET.page%}
+    {{forloop.counter}}
+{% else %}
+    {{forloop.counter}} 
+{% endif %}
