@@ -24,7 +24,7 @@
       //newWindow: true,
       close: true,
       gravity: "top", // `top` or `bottom`
-      position: "center", // `left`, `center` or `right`
+      position: "right", // `left`, `center` or `right`
       stopOnFocus: true, // Prevents dismissing of toast on hover
       style: {
         background: bgColor,
