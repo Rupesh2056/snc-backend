@@ -1,0 +1,8 @@
+{%extends 'base.html'%}
+{% block home %} {% url 'metadata_list' %} {% endblock %}
+{% block title %}Meta Data List {% endblock %}
+{% block content %}
+   {% include 'htmx_partial/metadata/list.html' %}
+{% endblock %}
+
+

@@ -1,0 +1,13 @@
+
+<div id="page-parent-div">
+    <div class="card">
+    {% include 'htmx_partial/components/search_filter.html' with  search_title="Search Student" hx_search_url="student_list" create_url="student_create" create_button="New Student" %}
+        
+        <div id="table-list">
+            {% include 'htmx_partial/student/table_content.html' %}
+         </div>
+    </div>
+</div>
+    
+    
+    

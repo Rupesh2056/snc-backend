@@ -9,8 +9,12 @@
             </div>
         </div>
 
-    
-        {%include 'components/menu_item.html' with path="course" url='course_list' title='Course' icon="bi bi-box" %}
+        {%include 'components/menu_item.html' with path="metadata" url='metadata_list' title='Meta Data' %}
+        {%include 'components/menu_item.html' with path="course" url='course_list' title='Course' %}
+        {%include 'components/menu_item.html' with path="instructor" url='instructor_list' title='Instructor' %}
+        {%include 'components/menu_item.html' with path="student" url='student_list' title='Student' %}
+        {%include 'components/menu_item.html' with path="enrollment" url='enrollment_list' title='Enrollment' %}
+        
 
         </div>
         <!--end::Menu-->

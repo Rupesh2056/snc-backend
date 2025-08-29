@@ -1,0 +1,8 @@
+{%extends 'base.html'%}
+{% block home %} {% url 'course_list' %} {% endblock %}
+{% block title %}Course List {% endblock %}
+{% block content %}
+   {% include 'htmx_partial/student/list.html' %}
+{% endblock %}
+
+
