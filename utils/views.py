@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.messages.views import SuccessMessageMixin
@@ -5,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 
 from meta.forms import MetaDataForm
+from meta.models import MetaData
 # Create your views here.
 
 class PartialTemplateMixin:
@@ -30,6 +32,7 @@ class PartialTemplateMixin:
 class SearchMixin(SuccessMessageMixin):
     search_lookup_fields = []
     success_message = "Successfully saved."
+    model = None
 
     def get_queryset(self, *args, **kwargs):
         qc = super().get_queryset(*args, **kwargs)
@@ -38,12 +41,24 @@ class SearchMixin(SuccessMessageMixin):
 
 
     def search(self, qc):
+        q_lookup = Q()
+
         if self.request.GET.get("q"):
             query = self.request.GET.get("q")
-            q_lookup = Q()
             for field in self.search_lookup_fields:
                 q_lookup |= Q(**{field + "__icontains": query})
-            return qc.filter(q_lookup)
+
+            # if hasattr(self.model,"meta_data"):
+            #     q_lookup |= Q(meta_data__value__icontains=query)
+
+        if self.request.GET.get("meta_ids"):
+            ids = [int(id) for id in (self.request.GET.get("meta_ids")) if id != ","]
+            if ids:
+                q_lookup |= Q(meta_data__in=ids)
+
+        return qc.filter(q_lookup)
+
+
         return qc
     
 
@@ -68,4 +83,28 @@ class MetadataContextMixin:
      def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["metadata_form"] = MetaDataForm()
+        return context
+     
+    
+class MetaDataFilterMixin:
+    def get_context_data(self, **kwargs):
+        related_name = self.model._meta.get_field("meta_data").remote_field.related_name
+        context = super().get_context_data(**kwargs)
+        qs = (
+            MetaData.objects
+            .filter(**{f"{related_name}__isnull":False})  
+            .values("id", "value", "key", "course_metas__id") 
+            .order_by("course_metas__id", "key")
+        )
+        grouped = defaultdict(list)
+        for md in qs:
+            grouped[md["key"]].append({
+                "id": md["id"],
+                "value": md["value"],
+            })           
+        context["dropdowns"] = dict(grouped)
+        try:
+            context["selected_metas"] = [int(id) for id in (self.request.GET.get("meta_ids")) if id != ","]
+        except:
+            pass
         return context

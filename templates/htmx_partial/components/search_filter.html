@@ -1,4 +1,4 @@
-<form style="z-index:12;">
+<form style="z-index:12;" id="search-form">
 
    {% if object_title %}
    <h3 class="m-5">{{object_title}}</h3>
@@ -41,17 +41,29 @@
                >
             {% endif %}
          </div>
+         {% for key,options in dropdowns.items %}
+               <div class="ms-1">
+               {% comment %} <label>{{key}} </label> {% endcomment %}
+               <select class="form-control" name="meta" onChange="submitForm()">
+                  <option value="">Select {{key}}</option>
+                  {% for obj in options %}
+                  <option value="{{obj.id}}" {% if obj.id in selected_metas %}selected{% endif %}>{{obj.value}}</option>
+                  {% endfor %}
+               </select>
+               </div>
+            {% endfor %}
+            <input type="hidden" name="meta_ids" id="meta_ids">
+
          <!--end::Search-->
       </div>
       <!--begin::Card title-->
       <!--begin::Card toolbar-->
+     
       <div class="card-toolbar">
          <!--begin::Toolbar-->
          <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
             
-            {% if composeContent and composeContent_url %}
-            <a href="{% url composeContent_url %}" class="btn btn-primary me-3"  >{{composeContent}}</a> 
-            {% endif %}
+            
 
             {% if create_url and create_button  %}
                {% if skip_hx_create %}
@@ -74,15 +86,7 @@
             {% endif %}
          </div>
          <!--end::Toolbar-->
-         <!--begin::Group actions-->
-         <div class="d-flex justify-content-end align-items-center d-none" data-kt-customer-table-toolbar="selected">
-            <div class="fw-bolder me-5">
-               <span class="me-2" data-kt-customer-table-select="selected_count"></span>Selected
-            </div>
-            <button type="button" class="btn btn-danger" data-kt-customer-table-select="delete_selected">Delete
-            Selected</button>
-         </div>
-         <!--end::Group actions-->
+       
       </div>
       <!--end::Card toolbar-->
    </div>

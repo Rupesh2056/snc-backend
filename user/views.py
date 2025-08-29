@@ -7,7 +7,7 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
-from utils.views import DeleteMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
+from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
 
 
 def logout_user(request):
@@ -31,7 +31,7 @@ class StudentMixin(SearchMixin,PartialTemplateMixin):
     template_dir="Student/"
 
 
-class StudentListView(StudentMixin, ListView):
+class StudentListView(StudentMixin,MetaDataFilterMixin, ListView):
     template_name = "student/list.html"
     search_lookup_fields = ["full_name","email"]
     queryset = Student.objects.all()

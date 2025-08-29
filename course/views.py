@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from course.forms import CourseForm, EnrollmentForm
 from course.models import Course, Enrollment
 from meta.forms import MetaDataForm
-from utils.views import DeleteMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
+from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 
 
@@ -18,8 +18,7 @@ class CourseMixin(SearchMixin,PartialTemplateMixin):
     paginate_by = 10
     template_dir="course/"
 
-
-class CourseListView(CourseMixin, ListView):
+class CourseListView(CourseMixin,MetaDataFilterMixin, ListView):
     template_name = "course/list.html"
     search_lookup_fields = ["title"]
     queryset = Course.objects.all()

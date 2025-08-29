@@ -266,10 +266,25 @@
                {% endfor %}
             {% endif %}
 
-   
+            
 
         
                
+      </script>
+      <script>
+         function submitForm()
+            {
+               console.error("Yoo")
+              const values = $('select[name="meta"]')
+                  .toArray()
+                  .flatMap(s => [...s.selectedOptions].map(o => o.value));
+
+            // Set hidden input value
+            const selected_metas = values.join(',')
+            $('#meta_ids').val(values.join(',')); 
+
+              $("#search-form").submit();
+            }
       </script>
       {% include "toasts.html" %}
    
