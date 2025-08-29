@@ -2,7 +2,7 @@
 
 <div class="card p-2">
 
-<form class="p-4" enctype="multipart/form-data" hx-post="" hx-replace-url="true" >
+<form class="p-4" enctype="multipart/form-data" hx-post="" hx-replace-url="true" hx-target="#body-div">
 <div class="row">
 
      {% for field in form.visible_fields %}
@@ -39,6 +39,12 @@
                   </p>
                   </div>
                     {% endfor %}
+
+                    <div class="m-5">
+                      {% for error in form.non_field_errors %}
+                        <span class="text-danger">{{error}}</span>
+                      {% endfor %}
+                      </div>
 
 
     {% csrf_token %}

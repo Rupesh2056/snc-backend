@@ -12,15 +12,15 @@ from utils.views import DeleteMixin, PartialTemplateMixin, SearchMixin
 class MetaDataMixin(SearchMixin,PartialTemplateMixin):
     form_class = MetaDataForm
     model = MetaData
-    success_url = reverse_lazy("MetaData_list")
+    success_url = reverse_lazy("metadata_list")
     queryset = MetaData.objects.all()
     paginate_by = 10
-    template_dir="MetaData/"
+    template_dir="metadata/"
 
 
 class MetaDataListView(MetaDataMixin, ListView):
     template_name = "metadata/list.html"
-    search_lookup_fields = ["title"]
+    search_lookup_fields = ["key","value"]
     queryset = MetaData.objects.all()
     
 
