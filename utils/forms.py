@@ -1,14 +1,8 @@
-from django import forms
 from django.forms.fields import (
     BooleanField,
-    CharField,
-    DateField,
-    DateTimeField,
     TypedChoiceField,
 )
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
-from django.forms.widgets import DateInput, PasswordInput,TimeInput
-
 
 class BaseForm:
     def __init__(self, *args, **kwargs):
