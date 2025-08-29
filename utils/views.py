@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.contrib.messages.views import SuccessMessageMixin
 
 from django.db.models import Q
+
+from meta.forms import MetaDataForm
 # Create your views here.
 
 class PartialTemplateMixin:
@@ -60,3 +62,10 @@ class DeleteMixin:
     def get(self, request):
         status = self.remove_from_DB(request)
         return JsonResponse({"deleted": status})
+    
+
+class MetadataContextMixin:
+     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["metadata_form"] = MetaDataForm()
+        return context

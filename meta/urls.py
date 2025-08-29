@@ -1,6 +1,6 @@
 from django.urls import path
 
-from meta.views import MetaDataCreateView, MetaDataDeleteView, MetaDataDetailView, MetaDataListView, MetaDataUpdateView
+from meta.views import MetaDataCreateAJAXView, MetaDataCreateView, MetaDataDeleteView, MetaDataDetailView, MetaDataListView, MetaDataUpdateView
 
 
 urlpatterns = [
@@ -11,4 +11,7 @@ urlpatterns = [
     path("meta-data/delete", MetaDataDeleteView.as_view(), name="metadata_delete"), 
 ]
 
+urlpatterns += [
+    path("meta-data/create-ajax/", MetaDataCreateAJAXView.as_view(), name="metadata_create_ajax"),
+]
 

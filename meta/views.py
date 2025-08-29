@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.views import View
 from django.urls import reverse_lazy
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
@@ -37,3 +38,18 @@ class MetaDataUpdateView(MetaDataMixin, UpdateView):
 
 class MetaDataDeleteView(MetaDataMixin,DeleteMixin, View):
     ...
+
+
+class MetaDataCreateAJAXView(MetaDataMixin, CreateView):
+    '''
+    Gets called from other create and update form and dynamically adds created metadata in the existing form`s dropdown.
+    '''
+
+    def post(self, request, *args, **kwargs):
+        form = MetaDataForm(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            
+            return JsonResponse({"status":True,"id":obj.id,"key":obj.key,
+                                 "value":obj.value})
+        return JsonResponse({"status":False})

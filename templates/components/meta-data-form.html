@@ -1,0 +1,56 @@
+<div class="modal fade" tabindex="-1" id="kt_modal_1">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Add Meta Data</h5>
+             <!--begin::Close-->
+             <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                <span class="svg-icon svg-icon-2x"></span>
+             </div>
+             <!--end::Close-->
+          </div>
+          <form onSubmit="createMetaData(event)" id="metaDataForm" method="POST" enctype="multipart/form-data">
+             <div class="modal-body">
+                {% csrf_token %}
+                {% comment %} {{recruiter_organization_form.as_p}}
+                 {% endcomment %}
+                 {% for field in metadata_form.visible_fields %}
+  
+           <!-- {{field.field.widget.input_type}} -->
+           {% if field.field.widget.input_type == "text" or field.field.widget.input_type == "number" or field.field.widget.input_type == "datetime-local" or field.field.widget.input_type == "url" or field.field.widget.input_type == "email" or field.field.widget.input_type == "date" or field.field.widget.input_type == "select" %}
+           <div class="col-md-12 fv-row fv-plugins-icon-container">
+  
+           {% elif field.field.widget.input_type == "textarea" or field.field.widget.input_type == "checkbox" %}
+                  <div class="col-md-12 fv-row fv-plugins-icon-container">
+            {% else %}
+           <div class="col-md-12 fv-row fv-plugins-icon-container">
+            {% endif %}
+              <p class="form-group">
+                    {% if field.field.widget.input_type == "checkbox" %}
+                    <label class="form-check form-switch form-check-custom form-check-solid">
+                          {{field}}
+                        <span class="form-check-label fw-bold text-muted" for="kt_modal_add_customer_billing">
+                          {{field.label}}
+                        </span>
+                      </label>
+                    {% else %}
+                    <label for="{{field.auto_id}}">{{field.label}}</label>
+                    {% if field.field.required %}
+                      <span class="text-danger">*</span>
+                    {% endif %}
+                    {{field}}
+                    <div class="fv-plugins-message-container invalid-feedback"><div data-field="daterangepicker_input"> {{field.errors}} </div></div>
+  
+                    {% endif %}
+                    </p>
+                    </div>
+                      {% endfor %}
+             </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save Meta Data</button>
+             </div>
+          </form>
+       </div>
+    </div>
+ </div>

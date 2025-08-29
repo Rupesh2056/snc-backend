@@ -1,0 +1,59 @@
+<script>
+    function createMetaData(event) {
+      event.preventDefault(); // Stop the form from submitting normally
+
+  
+      const form = document.getElementById('metaDataForm');
+      const formData = new FormData(form);
+  
+      fetch("{% url 'metadata_create_ajax' %}", {
+          method: 'POST',
+          headers: {
+              'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+          },
+          body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.status) {
+
+              const select = document.getElementById('id_meta_data');
+              const option = document.createElement('option');
+              option.value = data.id;
+              option.text = data.key + " : " + data.value;
+              option.selected = true;
+              select.appendChild(option);
+
+              
+            form.reset();
+        
+              Toastify({
+
+                text: "MetaData Added",
+                
+                duration: 3000,
+                style: {
+                  background: "green",
+                }
+                
+                }).showToast();
+          } else {
+            Toastify({
+
+              text: "Something Went Wrong",
+              
+              duration: 3000,
+              style: {
+                background: "red",
+              }
+              
+              }).showToast();
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+      });
+  }
+
+  </script>

@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 
 from course.forms import CourseForm, EnrollmentForm
 from course.models import Course, Enrollment
-from utils.views import DeleteMixin, PartialTemplateMixin, SearchMixin
+from meta.forms import MetaDataForm
+from utils.views import DeleteMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 
 
@@ -29,10 +30,15 @@ class CourseDetailView(CourseMixin, DetailView):
 
 
 class CourseCreateView(CourseMixin, CreateView):
-    template_name = "create.html"
+    template_name = "dynamic_create.html"
 
-class CourseUpdateView(CourseMixin, UpdateView):
-    template_name = "update.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["metadata_form"] = MetaDataForm()
+        return context
+
+class CourseUpdateView(CourseMixin,MetadataContextMixin, UpdateView):
+    template_name = "dynamic_update.html"
 
 
 class CourseDeleteView(CourseMixin,DeleteMixin, View):
@@ -60,11 +66,11 @@ class EnrollmentDetailView(EnrollmentMixin, DetailView):
     template_name = "enrollment/enrollment_detail.html"
 
 
-class EnrollmentCreateView(EnrollmentMixin, CreateView):
-    template_name = "create.html"
+class EnrollmentCreateView(EnrollmentMixin,MetadataContextMixin, CreateView):
+    template_name = "dynamic_create.html"
 
-class EnrollmentUpdateView(EnrollmentMixin, UpdateView):
-    template_name = "update.html"
+class EnrollmentUpdateView(EnrollmentMixin,MetadataContextMixin, UpdateView):
+    template_name = "dynamic_update.html"
 
 
 class EnrollmentDeleteView(EnrollmentMixin,DeleteMixin, View):

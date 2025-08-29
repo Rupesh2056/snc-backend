@@ -7,7 +7,7 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
-from utils.views import DeleteMixin, PartialTemplateMixin, SearchMixin
+from utils.views import DeleteMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
 
 
 def logout_user(request):
@@ -41,11 +41,11 @@ class StudentDetailView(StudentMixin, DetailView):
     template_name = "student/student_detail.html"
 
 
-class StudentCreateView(StudentMixin, CreateView):
-    template_name = "create.html"
+class StudentCreateView(StudentMixin,MetadataContextMixin, CreateView):
+    template_name = "dynamic_create.html"
 
-class StudentUpdateView(StudentMixin, UpdateView):
-    template_name = "update.html"
+class StudentUpdateView(StudentMixin,MetadataContextMixin, UpdateView):
+    template_name = "dynamic_update.html"
 
 
 class StudentDeleteView(StudentMixin,DeleteMixin, View):
@@ -73,11 +73,11 @@ class InstructorDetailView(InstructorMixin, DetailView):
     template_name = "instructor/instructor_detail.html"
 
 
-class InstructorCreateView(InstructorMixin, CreateView):
-    template_name = "create.html"
+class InstructorCreateView(InstructorMixin,MetadataContextMixin, CreateView):
+    template_name = "dynamic_create.html"
 
-class InstructorUpdateView(InstructorMixin, UpdateView):
-    template_name = "update.html"
+class InstructorUpdateView(InstructorMixin,MetadataContextMixin, UpdateView):
+    template_name = "dynamic_update.html"
 
 
 class InstructorDeleteView(InstructorMixin,DeleteMixin, View):
