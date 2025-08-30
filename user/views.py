@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
@@ -29,7 +29,12 @@ class StudentMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     success_url = reverse_lazy("student_list")
     queryset = Student.objects.all()
     paginate_by = 10
-    template_dir="Student/"
+    template_dir = "Student/"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
 
 
 class StudentListView(StudentMixin,MetaDataFilterMixin, ListView):
