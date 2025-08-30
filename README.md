@@ -68,5 +68,6 @@
     > 2. Realtime Search without wholepage reload
     > 3. Dynamic Filter of MetaData. (Dropdowns are created dynamically.)
     > 4. Feature to add MetaData page within create/update page of Student,Course e.t.c Models. 
-    >5. Pagination for all List Pages.
+    > 5. Pagination for all List Pages.
+    > 6. Cool Toaster for messages. 
     
