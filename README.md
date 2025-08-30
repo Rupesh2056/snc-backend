@@ -53,19 +53,20 @@
 
 1. Project Structure
     >I used seperate apps to seperate concerns.
-    | App  | Models and Logics |
-    | ------------- |:-------------:|
-    | root          | Project root (containing settings.py) |
-    | user          | Student,Instructor |
-    | course        | Course,Enrollment     |
-    | meta          | MetaData      |
-    | utils          | BaseModel (Contains all Mixins and logics used by all    models)      |
+    
+| App  | Models and Logics |
+| ------------- |:-------------:|
+| root          | Project root (containing settings.py) |
+| user          | Student,Instructor |
+| course        | Course,Enrollment     |
+| meta          | MetaData      |
+| utils          | BaseModel (Contains all Mixins and logics used by all    models)      |
 
 
 2. Additional Features Covered 
-    >1. Fully SPA using htmx.
-     2. Realtime Search without wholepage reload
-     3. Dynamic Filter of MetaData. (Dropdowns are created dynamically.)
-     4. Feature to add MetaData page within create/update page of Student,Course e.t.c Models. 
-     5. Pagination for all List Pages.
+    > 1. Fully SPA using htmx.
+    > 2. Realtime Search without wholepage reload
+    > 3. Dynamic Filter of MetaData. (Dropdowns are created dynamically.)
+    > 4. Feature to add MetaData page within create/update page of Student,Course e.t.c Models. 
+    >5. Pagination for all List Pages.
     
