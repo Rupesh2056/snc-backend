@@ -20,8 +20,8 @@ class MetaData(TimeStampModel):
 
 class StudentMetaData(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
-    student = models.ForeignKey("user.student", on_delete=models.CASCADE)
-    metadata = models.ForeignKey(MetaData, on_delete=models.CASCADE)
+    student = models.ForeignKey("user.student", on_delete=models.CASCADE,related_name="student_metadata")
+    metadata = models.ForeignKey(MetaData, on_delete=models.CASCADE,related_name="student_metadata")
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:

@@ -21,8 +21,9 @@
                {% include "components/card_data.html" with field="Email" value=object.email  %}
                {% include "components/card_data.html" with field="DOB" value=object.dob  %}
 
-               {% for metadata in object.meta_data.all %}
-               {% include "components/card_data.html" with field=metadata.key value=metadata.value  %}
+               {% for metadata in object.metas %}
+               
+               {% include "components/card_data.html" with field=metadata.metadata.key value=metadata.metadata.value added_by=metadata.added_by %}
 
 
                {% endfor %}

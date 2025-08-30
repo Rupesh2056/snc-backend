@@ -5,11 +5,13 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
+from meta.models import StudentMetaData
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
 from utils.permissions import AccessMixin
 from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, PrefetchMixin, SearchMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 
 def logout_user(request):
     logout(request)
@@ -42,9 +44,17 @@ class StudentListView(StudentMixin,MetaDataFilterMixin, ListView):
     search_lookup_fields = ["full_name","email"]
     queryset = Student.objects.all()
     
-
-class StudentDetailView(StudentMixin,PrefetchMixin, DetailView):
+class StudentDetailView(StudentMixin, DetailView):
     template_name = "student/detail.html"
+
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get("pk")
+        student_metadata_qs = StudentMetaData.objects.select_related('metadata', 'added_by')
+        obj = Student.objects.prefetch_related(
+            Prefetch('student_metadata', queryset=student_metadata_qs, to_attr='metas')
+        ).get(pk=pk)
+        return obj
 
 
 class StudentCreateView(StudentMixin,MetadataContextMixin, CreateView):
