@@ -220,11 +220,11 @@
         }
         document.body.addEventListener('htmx:beforeRequest', function(event) {          
      });
-        document.body.addEventListener('htmx:afterSwap', function(event) {
+        {% comment %} document.body.addEventListener('htmx:afterSwap', function(event) {
             
                initializeForm();
            
-        });
+        }); {% endcomment %}
          $(document).on('click',".menu-link.side-bar",function()
                {
 

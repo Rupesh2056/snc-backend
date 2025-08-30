@@ -1,3 +1,4 @@
+from django.forms import DateField, DateInput
 from django.forms.fields import (
     BooleanField,
     TypedChoiceField,
@@ -35,5 +36,15 @@ class BaseForm:
                 self.fields[field].widget.attrs[
                     "class"
                 ] = "form-control form-control-sm"
+
+                self.fields[field].label = f"{self.fields[field].label} (Press Ctrl to select multiple)"
+            
+            if type(self.fields[field]) == DateField:
+                self.fields[field].widget = DateInput(
+                    attrs={
+                        "class": "form-control datetimepicker-input col-2 form-control-solid",
+                        "type": "date",
+                    }
+                )
 
 
