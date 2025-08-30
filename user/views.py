@@ -8,7 +8,7 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
 from utils.permissions import AccessMixin
-from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
+from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, PrefetchMixin, SearchMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 def logout_user(request):
@@ -38,8 +38,8 @@ class StudentListView(StudentMixin,MetaDataFilterMixin, ListView):
     queryset = Student.objects.all()
     
 
-class StudentDetailView(StudentMixin, DetailView):
-    template_name = "student/student_detail.html"
+class StudentDetailView(StudentMixin,PrefetchMixin, DetailView):
+    template_name = "student/detail.html"
 
 
 class StudentCreateView(StudentMixin,MetadataContextMixin, CreateView):
@@ -70,8 +70,8 @@ class InstructorListView(InstructorMixin, ListView):
     queryset = Instructor.objects.all()
     
 
-class InstructorDetailView(InstructorMixin, DetailView):
-    template_name = "instructor/instructor_detail.html"
+class InstructorDetailView(InstructorMixin,PrefetchMixin, DetailView):
+    template_name = "instructor/detail.html"
 
 
 class InstructorCreateView(InstructorMixin,MetadataContextMixin, CreateView):

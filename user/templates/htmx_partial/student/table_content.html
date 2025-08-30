@@ -34,7 +34,8 @@
                       </td>
                   
                       <td>
-                        {{object.full_name}}
+                        {% include "components/detail_link.html" with url="student_detail"  pk=object.id value=object.full_name %}
+
                       </td>
                       <td>{{object.email}}</td>
                       <td>{{object.dob}}</td>

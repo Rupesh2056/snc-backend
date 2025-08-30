@@ -5,7 +5,7 @@ from course.forms import CourseForm, EnrollmentForm
 from course.models import Course, Enrollment
 from meta.forms import MetaDataForm
 from utils.permissions import AccessMixin
-from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
+from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, PrefetchMixin, SearchMixin
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 
 
@@ -25,8 +25,8 @@ class CourseListView(CourseMixin,MetaDataFilterMixin, ListView):
     queryset = Course.objects.all()
     
 
-class CourseDetailView(CourseMixin, DetailView):
-    template_name = "Course/Course_detail.html"
+class CourseDetailView(CourseMixin,PrefetchMixin, DetailView):
+    template_name = "course/detail.html"
 
 
 class CourseCreateView(CourseMixin, CreateView):
@@ -63,7 +63,11 @@ class EnrollmentListView(EnrollmentMixin,MetaDataFilterMixin, ListView):
     
 
 class EnrollmentDetailView(EnrollmentMixin, DetailView):
-    template_name = "enrollment/enrollment_detail.html"
+    template_name = "enrollment/detail.html"
+
+    def get_object(self, *args,**kwargs):
+        pk = self.kwargs.get("pk")
+        return self.model.objects.select_related("student","course").prefetch_related("meta_data").get(id=pk)
 
 
 class EnrollmentCreateView(EnrollmentMixin,MetadataContextMixin, CreateView):

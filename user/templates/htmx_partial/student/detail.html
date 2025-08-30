@@ -1,0 +1,40 @@
+<div id="page-parent-div">
+    <div class="row">
+       <!--begin::Bacisc Detail-->
+       <div class="col-xl-8">
+          <div class="col card mb-8 mb-xl-12">
+             <!--begin::Card header-->
+             <div class="card-header cursor-pointer">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                   <h3 class="fw-bolder m-0">{{object.full_name}}</h3>
+                </div>
+                <!--end::Card title-->
+                <!--begin::Action-->
+                <!--end::Action-->
+             </div>
+             <!--begin::Card header-->
+             <!--begin::Card body-->
+             <div class="card-body p-9">
+                <!--begin::Row-->
+                <!--end::Row-->
+               {% include "components/card_data.html" with field="Email" value=object.email  %}
+               {% include "components/card_data.html" with field="DOB" value=object.dob  %}
+
+               {% for metadata in object.meta_data.all %}
+               {% include "components/card_data.html" with field=metadata.key value=metadata.value  %}
+
+
+               {% endfor %}
+
+                
+             
+           
+             </div>
+             <!--end::Card body-->
+          </div>
+        
+       <!--end::Bacisc Detail-->
+    </div>
+    </div>
+    

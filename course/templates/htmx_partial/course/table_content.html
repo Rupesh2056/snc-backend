@@ -32,15 +32,10 @@
                           {% endif %}
                       </td>
                       <td>
-                        {% comment %} <a
-                        class="link cursor-pointer"
-                        hx-get="{% url 'user_detail' object.pk %}" 
-                        hx-push-url = "true"
-                        hx-target="#body-div"
-                        > {% endcomment %}
+                      
                         <a
                         class="link cursor-pointer"
-                        hx-get="{% url 'course_list'%}?album={{object.id}}" 
+                        hx-get="{% url 'course_detail' object.id %}" 
                         hx-push-url = "true"
                         hx-target="#body-div"
                          >

@@ -33,7 +33,8 @@
                       </td>
                      
                       <td>
-                        {{object.student.full_name}}
+                        {% include "components/detail_link.html" with url="enrollment_detail"  pk=object.id value=object.student.email %}
+                        
                       </td>
                       <td>
                         {{object.course.title}}

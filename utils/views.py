@@ -122,3 +122,9 @@ class MetaDataFilterMixin:
             print("Except........",str(e))
             pass
         return context
+    
+
+class PrefetchMixin:
+    def get_object(self, *args,**kwargs):
+        pk = self.kwargs.get("pk")
+        return self.model.objects.prefetch_related("meta_data").get(id=pk)
