@@ -7,14 +7,15 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 
 from user.forms import InstructorForm, StudentForm
 from user.models import Instructor, Student
+from utils.permissions import AccessMixin
 from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def logout_user(request):
     logout(request)
     return redirect(reverse_lazy("user_login"))
 
-class IndexView(View):
+class IndexView(AccessMixin,View):
     template_name = "index.html"
     authorized_groups = ["admin"]
 
@@ -22,7 +23,7 @@ class IndexView(View):
         context = {}
         return render(request,self.template_name,context)
 
-class StudentMixin(SearchMixin,PartialTemplateMixin):
+class StudentMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     form_class = StudentForm
     model = Student
     success_url = reverse_lazy("student_list")
@@ -54,7 +55,7 @@ class StudentDeleteView(StudentMixin,DeleteMixin, View):
 
 
 
-class InstructorMixin(SearchMixin,PartialTemplateMixin):
+class InstructorMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     form_class = InstructorForm
     model = Instructor
     success_url = reverse_lazy("instructor_list")

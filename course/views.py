@@ -4,13 +4,14 @@ from django.urls import reverse_lazy
 from course.forms import CourseForm, EnrollmentForm
 from course.models import Course, Enrollment
 from meta.forms import MetaDataForm
+from utils.permissions import AccessMixin
 from utils.views import DeleteMixin, MetaDataFilterMixin, MetadataContextMixin, PartialTemplateMixin, SearchMixin
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 
 
 # Create your views here.
 
-class CourseMixin(SearchMixin,PartialTemplateMixin):
+class CourseMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     form_class = CourseForm
     model = Course
     success_url = reverse_lazy("course_list")
@@ -46,7 +47,7 @@ class CourseDeleteView(CourseMixin,DeleteMixin, View):
 
 
 
-class EnrollmentMixin(SearchMixin,PartialTemplateMixin):
+class EnrollmentMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     form_class = EnrollmentForm
     model = Enrollment
     success_url = reverse_lazy("enrollment_list")
@@ -55,7 +56,7 @@ class EnrollmentMixin(SearchMixin,PartialTemplateMixin):
     template_dir="enrollment/"
 
 
-class EnrollmentListView(EnrollmentMixin, ListView):
+class EnrollmentListView(EnrollmentMixin,MetaDataFilterMixin, ListView):
     template_name = "enrollment/list.html"
     search_lookup_fields = ["student__full_name","student__email"]
     queryset = Enrollment.objects.all()

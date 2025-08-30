@@ -7,6 +7,7 @@ from django.db.models import Q
 
 from meta.forms import MetaDataForm
 from meta.models import MetaData
+from utils.utils import remove_trailing_comma
 # Create your views here.
 
 class PartialTemplateMixin:
@@ -52,9 +53,17 @@ class SearchMixin(SuccessMessageMixin):
             #     q_lookup |= Q(meta_data__value__icontains=query)
 
         if self.request.GET.get("meta_ids"):
-            ids = [int(id) for id in (self.request.GET.get("meta_ids")) if id != ","]
-            if ids:
-                q_lookup |= Q(meta_data__in=ids)
+            meta_ids_str = self.request.GET.get("meta_ids")
+            if meta_ids_str.endswith(","):
+                meta_ids_str = meta_ids_str[:-1] 
+
+            print("meta_ids_str",meta_ids_str)
+            if meta_ids_str:
+                ids = [int(id) for id in (meta_ids_str.split(","))]
+                if ids:
+                    for id in ids:
+                        qc = qc.filter(meta_data=id)
+                    return qc
 
         return qc.filter(q_lookup)
 
@@ -98,13 +107,18 @@ class MetaDataFilterMixin:
         )
         grouped = defaultdict(list)
         for md in qs:
-            grouped[md["key"]].append({
+            option = {
                 "id": md["id"],
                 "value": md["value"],
-            })           
+            }
+            if option not in grouped[md["key"]]:
+                grouped[md["key"]].append(option)           
         context["dropdowns"] = dict(grouped)
+        print(context["dropdowns"])
         try:
-            context["selected_metas"] = [int(id) for id in (self.request.GET.get("meta_ids")) if id != ","]
-        except:
+            meta_ids = remove_trailing_comma(self.request.GET.get("meta_ids"))
+            context["selected_metas"] = [int(id) for id in (meta_ids.split(","))]
+        except Exception as e:
+            print("Except........",str(e))
             pass
         return context

@@ -64,10 +64,10 @@
                             <!--end::Menu item-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                  {% include 'components/dropdown_action.html' with title="Update" hx_url="course_update"  pk=object.id   %}
+                                  {% include 'components/dropdown_action.html' with title="Update" hx_url="enrollment_update"  pk=object.id   %}
                             </div>
                             <div class="menu-item px-3">
-                                <a onclick="remove({{object.id}},'{% url "course_delete" %}','{{object}}',)" class="menu-link px-3" id="obj"
+                                <a onclick="remove({{object.id}},'{% url "enrollment_delete" %}','{{object}}',)" class="menu-link px-3" id="obj"
                                 data-kt-customer-table-filter="delete_row">Delete</a>
                             </div>
                             <!--end::Menu item-->
@@ -75,7 +75,7 @@
                       </td>
                 </tr>
                 {%empty%}
-                {% include 'components/empty.html' with  title="Course"%}
+                {% include 'components/empty.html' with  title="Enrollment"%}
               {% endfor %}
           
           </tbody>
@@ -83,7 +83,7 @@
         </table>
       </div>
     {%if object_list%}
-      {% include 'pagination.html' with hx_url="course_list" %}
+      {% include 'pagination.html' with hx_url="enrollment_list" %}
     {%endif%}
     </div>
     <!--end::Table-->

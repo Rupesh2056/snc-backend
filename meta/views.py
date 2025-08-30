@@ -6,11 +6,12 @@ from django.views.generic import ListView,CreateView,UpdateView,DeleteView,Detai
 from meta.forms import MetaDataForm
 from meta.models import MetaData
 from user.models import MetaData
+from utils.permissions import AccessMixin
 from utils.views import DeleteMixin, PartialTemplateMixin, SearchMixin
 
 
 
-class MetaDataMixin(SearchMixin,PartialTemplateMixin):
+class MetaDataMixin(AccessMixin,SearchMixin,PartialTemplateMixin):
     form_class = MetaDataForm
     model = MetaData
     success_url = reverse_lazy("metadata_list")
